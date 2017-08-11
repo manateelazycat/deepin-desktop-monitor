@@ -1,0 +1,19 @@
+[Desktop Entry]
+Categories=Desktop;Qt;
+Comment=Monitor desktop process status
+Exec=deepin-desktop-monitor
+GenericName=Desktop Monitor
+Icon=deepin-desktop-monitor
+Name=Deepin Desktop Monitor
+Type=Application
+
+
+# Translations
+Name[de]=Deepin Desktop Monitor
+Icon[de]=deepin-desktop-monitor
+Comment[de]=Desktopprozessstatus überwachen
+GenericName[de]=Desktop Monitor
+Name[zh_CN]=深度桌面监视器
+Icon[zh_CN]=deepin-desktop-monitor
+Comment[zh_CN]=监控桌面进程状态
+GenericName[zh_CN]=桌面监视器
