@@ -26,7 +26,6 @@
 
 #include "ddialog.h"
 #include "dmainwindow.h"
-#include "settings.h"
 #include "status_monitor.h"
 #include <QAction>
 #include <QHBoxLayout>
@@ -52,7 +51,6 @@ private:
     QHBoxLayout *layout;
     QMenu *menu;
     QString backgroundColor;
-    Settings *settings;
     StatusMonitor *statusMonitor;
 };
 

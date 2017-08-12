@@ -25,7 +25,6 @@ HEADERS += src/utils.h \
 		   src/hashqstring.h \
 		   src/smooth_curve_generator.h \
 		   src/constant.h \
-		   src/settings.h \
 		   src/main_window.h
 SOURCES += src/main.cpp \
 		   src/utils.cpp \
@@ -34,8 +33,7 @@ SOURCES += src/main.cpp \
 		   src/network_monitor.cpp \
 		   src/status_monitor.cpp \
 		   src/smooth_curve_generator.cpp \
-		   src/main_window.cpp \
-		   src/settings.cpp
+		   src/main_window.cpp
 		   
 QT += core
 QT += widgets

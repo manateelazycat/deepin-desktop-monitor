@@ -49,9 +49,6 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     setAttribute(Qt::WA_NoSystemBackground, true);
     setAttribute(Qt::WA_TranslucentBackground, true);
 
-    settings = new Settings(this);
-    settings->init();
-
     // Init window size.
     QRect screenRect = qApp->primaryScreen()->geometry();
     this->setFixedSize(screenRect.width(), screenRect.height());
@@ -82,8 +79,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *)
 
 void MainWindow::initTheme()
 {
-    QString theme = settings->getOption("theme_style").toString();
-    DThemeManager::instance()->setTheme(theme);
 }
 
 void MainWindow::paintEvent(QPaintEvent *)
