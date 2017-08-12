@@ -63,31 +63,11 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 
     this->setLayout(layout);
 
-    int tabIndex = 1;
-
-    processManager = new ProcessManager(tabIndex, getColumnHideFlags(), getSortingIndex(), getSortingOrder());
-    processManager->getProcessView()->installEventFilter(this);
-    statusMonitor = new StatusMonitor(tabIndex);
-
-    connect(processManager, &ProcessManager::activeTab, this, &MainWindow::switchTab);
-    connect(processManager, &ProcessManager::changeColumnVisible, this, &MainWindow::recordVisibleColumn);
-    connect(processManager, &ProcessManager::changeSortingStatus, this, &MainWindow::recordSortingStatus);
-
-    connect(statusMonitor, &StatusMonitor::updateProcessStatus, processManager, &ProcessManager::updateStatus, Qt::QueuedConnection);
+    statusMonitor = new StatusMonitor();
 
     statusMonitor->updateStatus();
 
     layout->addWidget(statusMonitor);
-    layout->addWidget(processManager);
-
-    killPid = -1;
-
-    killProcessDialog = new DDialog(QString(tr("End application")), QString(tr("Ending this application may cause data loss.\nAre you sure to continue?")), this);
-    killProcessDialog->setWindowFlags(killProcessDialog->windowFlags() | Qt::WindowStaysOnTopHint);
-    killProcessDialog->setIcon(QIcon(Utils::getQrcPath("deepin-desktop-monitor.svg")));
-    killProcessDialog->addButton(QString(tr("Cancel")), false, DDialog::ButtonNormal);
-    killProcessDialog->addButton(QString(tr("End application")), true, DDialog::ButtonNormal);
-    connect(killProcessDialog, &DDialog::buttonClicked, this, &MainWindow::dialogButtonClicked);
 }
 
 MainWindow::~MainWindow()
@@ -95,42 +75,9 @@ MainWindow::~MainWindow()
     // We don't need clean pointers because application has exit here.
 }
 
-QList<bool> MainWindow::getColumnHideFlags()
-{
-    QString processColumns = settings->getOption("process_columns").toString();
-
-    QList<bool> toggleHideFlags;
-    toggleHideFlags << true;
-    toggleHideFlags << true;
-    toggleHideFlags << true;
-    toggleHideFlags << true;
-    toggleHideFlags << true;
-    toggleHideFlags << true;
-    toggleHideFlags << true;
-    toggleHideFlags << true;
-
-    return toggleHideFlags;
-}
-
-bool MainWindow::eventFilter(QObject *, QEvent *event)
+bool MainWindow::eventFilter(QObject *, QEvent *)
 {
     return false;
-}
-
-int MainWindow::getSortingIndex()
-{
-    QString sortingName = settings->getOption("process_sorting_column").toString();
-
-    QList<QString> columnNames = {
-        "name", "cpu", "memory", "disk_write", "disk_read", "download", "upload", "pid"
-    };
-
-    return columnNames.indexOf(sortingName);
-}
-
-bool MainWindow::getSortingOrder()
-{
-    return settings->getOption("process_sorting_order").toBool();
 }
 
 void MainWindow::initTheme()
@@ -141,94 +88,6 @@ void MainWindow::initTheme()
 
 void MainWindow::paintEvent(QPaintEvent *)
 {
-}
-
-void MainWindow::dialogButtonClicked(int index, QString)
-{
-    if (index == 1) {
-        if (killPid != -1) {
-            if (kill(killPid, SIGKILL) != 0) {
-                cout << "Kill failed." << endl;
-            }
-
-            killPid = -1;
-        }
-    }
-}
-
-void MainWindow::popupKillConfirmDialog(int pid)
-{
-    killPid = pid;
-    killProcessDialog->show();
-}
-
-void MainWindow::recordSortingStatus(int index, bool sortingOrder)
-{
-    QList<QString> columnNames = {
-        "name", "cpu", "memory", "disk_write", "disk_read", "download", "upload", "pid"
-    };
-
-    settings->setOption("process_sorting_column", columnNames[index]);
-    settings->setOption("process_sorting_order", sortingOrder);
-}
-
-void MainWindow::recordVisibleColumn(int, bool, QList<bool> columnVisibles)
-{
-    QList<QString> visibleColumns;
-    visibleColumns << "name";
-
-
-    if (columnVisibles[1]) {
-        visibleColumns << "cpu";
-    }
-
-    if (columnVisibles[2]) {
-        visibleColumns << "memory";
-    }
-
-    if (columnVisibles[3]) {
-        visibleColumns << "disk_write";
-    }
-
-    if (columnVisibles[4]) {
-        visibleColumns << "disk_read";
-    }
-
-    if (columnVisibles[5]) {
-        visibleColumns << "download";
-    }
-
-    if (columnVisibles[6]) {
-        visibleColumns << "upload";
-    }
-
-    if (columnVisibles[7]) {
-        visibleColumns << "pid";
-    }
-
-    QString processColumns = "";
-    for (int i = 0; i < visibleColumns.length(); i++) {
-        if (i != visibleColumns.length() - 1) {
-            processColumns += QString("%1,").arg(visibleColumns[i]);
-        } else {
-            processColumns += visibleColumns[i];
-        }
-    }
-
-    settings->setOption("process_columns", processColumns);
-}
-
-void MainWindow::switchTab(int index)
-{
-    if (index == 0) {
-        statusMonitor->switchToOnlyGui();
-    } else if (index == 1) {
-        statusMonitor->switchToOnlyMe();
-    } else {
-        statusMonitor->switchToAllProcess();
-    }
-
-    settings->setOption("process_tab_index", index);
 }
 
 void MainWindow::registerDesktop()

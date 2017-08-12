@@ -25,11 +25,8 @@
 #define STATUSMONITOR_H
 
 #include "cpu_monitor.h"
-#include "find_window_title.h"
 #include "memory_monitor.h"
 #include "network_monitor.h"
-#include "network_traffic_filter.h"
-#include "process_item.h"
 #include <QMap>
 #include <QPointF>
 #include <QTimer>
@@ -45,47 +42,22 @@ class StatusMonitor : public QWidget
 
     typedef std::map<int, proc_t> StoredProcType;
 
-    enum FilterType {OnlyGUI, OnlyMe, AllProcess};
-
-    struct ChildPidInfo {
-        double cpu;
-        long memory;
-        DiskStatus diskStatus;
-        NetworkStatus networkStatus;
-    };
-
 public:
-    StatusMonitor(int tabIndex);
+    StatusMonitor();
     ~StatusMonitor();
 
 signals:
     void updateCpuStatus(double cpuPercent);
     void updateMemoryStatus(long usedMemory, long totalMemory, long usedSwap, long totalSwap);
     void updateNetworkStatus(long totalRecvBytes, long totalSentBytes, float totalRecvKbs, float totalSentKbs);
-    void updateProcessNumber(QString tabName, int guiProcessNumber, int systemProcessNumber);
-    void updateProcessStatus(QList<ListItem*> items);
 
 public slots:
-    void switchToAllProcess();
-    void switchToOnlyGui();
-    void switchToOnlyMe();
     void updateStatus();
 
 private:
-    DiskStatus getProcessDiskStatus(int pid);
-    
     CpuMonitor *cpuMonitor;
-    FilterType filterType;
-    FindWindowTitle *findWindowTitle;
     MemoryMonitor *memoryMonitor;
     NetworkMonitor *networkMonitor;
-    QMap<QString, int> *wineApplicationDesktopMaps;
-    QMap<int, QString> *wineServerDesktopMaps;
-    QMap<int, double> *processCpuPercents;
-    QMap<int, long> *processRecvBytes;
-    QMap<int, long> *processSentBytes;
-    QMap<int, unsigned long> *processReadKbs;
-    QMap<int, unsigned long> *processWriteKbs;
     QString currentUsername;
     QString tabName;
     QTimer *updateStatusTimer;
@@ -101,6 +73,7 @@ private:
     unsigned long long prevWorkCpuTime;
     unsigned long long totalCpuTime;
     unsigned long long workCpuTime;
+    QMap<int, double> *processCpuPercents;
 };
 
 #endif

@@ -26,7 +26,6 @@
 
 #include "ddialog.h"
 #include "dmainwindow.h"
-#include "process_manager.h"
 #include "settings.h"
 #include "status_monitor.h"
 #include <QAction>
@@ -43,31 +42,18 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
                                        
-    QList<bool> getColumnHideFlags();
     bool eventFilter(QObject *, QEvent *);
-    bool getSortingOrder();
-    int getSortingIndex();
     void initTheme();
     void initThemeAction();
     void paintEvent(QPaintEvent *);
     void registerDesktop();
     
-public slots:
-    void dialogButtonClicked(int index, QString);
-    void popupKillConfirmDialog(int pid);
-    void recordSortingStatus(int index, bool sortingOrder);
-    void recordVisibleColumn(int index, bool visible, QList<bool> columnVisibles);
-    void switchTab(int index);
-    
 private:
-    DDialog *killProcessDialog;
-    ProcessManager *processManager;
     QHBoxLayout *layout;
     QMenu *menu;
     QString backgroundColor;
     Settings *settings;
     StatusMonitor *statusMonitor;
-    int killPid;
 };
 
 #endif

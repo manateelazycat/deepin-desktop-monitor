@@ -4,16 +4,11 @@
 
 TEMPLATE = app
 TARGET = deepin-desktop-monitor
-INCLUDEPATH += $$PWD/nethogs/src/
-				
+
 CONFIG += link_pkgconfig
 CONFIG += c++11 
 PKGCONFIG += xcb xcb-util xcb-ewmh dtkwidget dtkwm
 RESOURCES = deepin-desktop-monitor.qrc
-
-!system(cd $$PWD/nethogs && make libnethogs){
-	error("Build nethogs static library failed.")
-}
 
 CONFIG(debug, debug|release) {
   # Enable memory address sanitizer in debug mode.
@@ -26,17 +21,9 @@ HEADERS += src/utils.h \
 		   src/cpu_monitor.h \
 		   src/memory_monitor.h \
 		   src/network_monitor.h \
-		   src/network_traffic_filter.h \
 		   src/status_monitor.h \
-           src/process_manager.h \
-           src/list_item.h \
-           src/list_view.h \
-           src/process_item.h \
-           src/process_view.h \
 		   src/hashqstring.h \
-           src/find_window_title.h \
 		   src/smooth_curve_generator.h \
-		   src/process_tree.h \
 		   src/constant.h \
 		   src/settings.h \
 		   src/main_window.h
@@ -45,16 +32,8 @@ SOURCES += src/main.cpp \
 		   src/cpu_monitor.cpp \
 		   src/memory_monitor.cpp \
 		   src/network_monitor.cpp \
-		   src/network_traffic_filter.cpp \
 		   src/status_monitor.cpp \
-           src/process_manager.cpp \
-           src/list_item.cpp \
-           src/list_view.cpp \
-           src/process_item.cpp \
-           src/process_view.cpp \
-		   src/find_window_title.cpp \
 		   src/smooth_curve_generator.cpp \
-		   src/process_tree.cpp \
 		   src/main_window.cpp \
 		   src/settings.cpp
 		   
@@ -66,7 +45,7 @@ QT += x11extras
 QT += dbus
 
 QMAKE_CXXFLAGS += -g
-LIBS += -L$$PWD/nethogs/src -lnethogs -lpcap
+LIBS += -lpcap
 LIBS += -L"libprocps" -lprocps
 LIBS += -lX11 -lXext -lXtst -ldtkwm
 
@@ -81,33 +60,8 @@ isEmpty(DOCDIR):DOCDIR=$${PREFIX}/share/dman/$${TARGET}
 desktop.path = $$INSTROOT$$APPDIR
 icon.path = $$INSTROOT$$ICONDIR
 target.path = $$INSTROOT$$BINDIR
-translations.path = $$INSTROOT$$DSRDIR/translations
-manual.path = $$INSTROOT$$DOCDIR
-
-isEmpty(TRANSLATIONS) {
-     include(translations.pri)
-}
-
-TRANSLATIONS_COMPILED = $$TRANSLATIONS
-TRANSLATIONS_COMPILED ~= s/\.ts/.qm/g
 
 desktop.files = deepin-desktop-monitor.desktop
 icon.files = image/deepin-desktop-monitor.svg
-translations.files = $$TRANSLATIONS_COMPILED
-manual.files = manual/*
 
-INSTALLS += desktop icon target translations manual
-
-CONFIG *= update_translations release_translations
-
-CONFIG(update_translations) {
-    isEmpty(lupdate):lupdate=lupdate
-    system($$lupdate -no-obsolete -locations none $$_PRO_FILE_)
-}
-CONFIG(release_translations) {
-    isEmpty(lrelease):lrelease=lrelease
-    system($$lrelease $$_PRO_FILE_)
-}
-
-DSR_LANG_PATH += $$DSRDIR/translations
-DEFINES += "DSR_LANG_PATH=\\\"$$DSR_LANG_PATH\\\""
+INSTALLS += desktop icon target
