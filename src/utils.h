@@ -24,7 +24,6 @@
 #define UTILS_H
 
 #include "hashqstring.h"
-#include <dwindowmanager.h>
 #include <QFileInfoList>
 #include <QLayout>
 #include <QObject>
@@ -32,8 +31,6 @@
 #include <QString>
 #include <proc/readproc.h>
 #include <unordered_set>
-
-DWM_USE_NAMESPACE
 
 const int RECTANGLE_PADDING = 24;
 const int RECTANGLE_RADIUS = 8;
@@ -59,9 +56,6 @@ namespace Utils {
     unsigned long long getTotalCpuTime(unsigned long long &workTime);
     void addLayoutWidget(QLayout *layout, QWidget *widget);
     void applyQss(QWidget *widget, QString qssName);
-    void blurRect(DWindowManager *windowManager, int widgetId, QRectF rect);
-    void blurRects(DWindowManager *windowManager, int widgetId, QList<QRectF> rects);
-    void clearBlur(DWindowManager *windowManager, int widgetId);
     void drawLoadingRing(QPainter &painter, 
                          int centerX, 
                          int centerY, 

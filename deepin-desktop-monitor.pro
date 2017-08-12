@@ -7,7 +7,7 @@ TARGET = deepin-desktop-monitor
 
 CONFIG += link_pkgconfig
 CONFIG += c++11 
-PKGCONFIG += xcb xcb-util xcb-ewmh dtkwidget dtkwm
+PKGCONFIG += xcb xcb-util xcb-ewmh dtkwidget
 RESOURCES = deepin-desktop-monitor.qrc
 
 CONFIG(debug, debug|release) {
@@ -45,7 +45,7 @@ QT += dbus
 QMAKE_CXXFLAGS += -g
 LIBS += -lpcap
 LIBS += -L"libprocps" -lprocps
-LIBS += -lX11 -lXext -lXtst -ldtkwm
+LIBS += -lX11 -lXext -lXtst
 
 OBJECTS_DIR=out
 MOC_DIR=out

@@ -224,30 +224,6 @@ namespace Utils {
         file.close();
     }
 
-    void blurRect(DWindowManager *windowManager, int widgetId, QRectF rect)
-    {
-        QVector<uint32_t> data;
-
-        data << rect.x() << rect.y() << rect.width() << rect.height() << RECTANGLE_RADIUS << RECTANGLE_RADIUS;
-        windowManager->setWindowBlur(widgetId, data);
-    }
-
-    void blurRects(DWindowManager *windowManager, int widgetId, QList<QRectF> rects)
-    {
-        QVector<uint32_t> data;
-        foreach (auto rect, rects) {
-            data << rect.x() << rect.y() << rect.width() << rect.height() << RECTANGLE_RADIUS << RECTANGLE_RADIUS;
-        }
-        windowManager->setWindowBlur(widgetId, data);
-    }
-
-    void clearBlur(DWindowManager *windowManager, int widgetId)
-    {
-        QVector<uint32_t> data;
-        data << 0 << 0 << 0 << 0 << 0 << 0;
-        windowManager->setWindowBlur(widgetId, data);
-    }
-
     void drawLoadingRing(QPainter &painter,
                          int centerX,
                          int centerY,

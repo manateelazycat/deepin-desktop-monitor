@@ -23,7 +23,6 @@
 
 #include "constant.h"
 #include "dthememanager.h"
-#include "dwindowmanagerhelper.h"
 #include "main_window.h"
 #include <DTitlebar>
 #include <QApplication>
