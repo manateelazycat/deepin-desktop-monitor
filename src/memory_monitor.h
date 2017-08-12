@@ -50,12 +50,12 @@ protected:
     QImage iconDarkImage;
     QImage iconLightImage;
     QString memoryBackgroundColor;
-    QString memoryColor = "#FF2997";
+    QString memoryColor = "#B9CFE4";
     QString memoryForegroundColor;
     QString numberColor;
     QString summaryColor;
     QString swapBackgroundColor;
-    QString swapColor = "#00B4C7";
+    QString swapColor = "#2C4860";
     QString swapForegroundColor;
     QString textColor;
     QTimer *timer;

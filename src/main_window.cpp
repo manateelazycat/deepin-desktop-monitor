@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     initTheme();
 
     layout = new QHBoxLayout();
+    layout->setContentsMargins(100, 0, 0, 0);
 
     this->setLayout(layout);
 
@@ -64,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 
     statusMonitor->updateStatus();
 
-    layout->addWidget(statusMonitor);
+    layout->addWidget(statusMonitor, 0, Qt::AlignLeft);
 }
 
 MainWindow::~MainWindow()

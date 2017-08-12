@@ -67,7 +67,7 @@ void CpuMonitor::initTheme()
     textColor = "#ffffff";
     numberColor = "#ffffff";
 
-    ringForegroundColor = "#2CA7F8";
+    ringForegroundColor = "#B9CFE4";
     ringForegroundOpacity = 1;
 
     ringBackgroundColor = "#000000";
@@ -176,6 +176,6 @@ void CpuMonitor::paintEvent(QPaintEvent *)
     painter.translate(waveformsRenderOffsetX, waveformsRenderOffsetY);
     painter.scale(1, -1);
 
-    painter.setPen(QPen(QColor("#2CA7F8"), 2));
+    painter.setPen(QPen(QColor("#B9CFE4"), 2));
     painter.drawPath(cpuPath);
 }
